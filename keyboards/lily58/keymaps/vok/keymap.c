@@ -2,6 +2,15 @@
 
 #define LCTL_ESC LCTL_T(KC_ESC)
 #define LALT_BS  LALT_T(KC_BSPC)
+#define LOW_BS LT(_LOWER, KC_BSPC)
+#define RSE_ENT LT(_RAISE, KC_ENT)
+
+// --- considerations and thoughts ---
+//
+// need to put üöäß somewhere
+//   double tab LAlt = RAlt ???
+//
+// check out repeat !
 
 enum layer_number {
   _QWERTY = 0,
@@ -32,7 +41,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_TAB,   KC_Q,   KC_W,    KC_E,    KC_R,    KC_T,                     KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_EQL,
   LCTL_ESC, KC_A,   KC_S,    KC_D,    KC_F,    KC_G,                     KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,
   KC_LSFT,  KC_Z,   KC_X,    KC_C,    KC_V,    KC_B, KC_LBRC,  KC_RBRC,  KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RSFT,
-                    KC_LGUI, MO(_LOWER), LALT_BS, KC_SPC,           KC_SPC, KC_ENT, MO(_RAISE), KC_RALT
+                      XXXXXXX, KC_LGUI, LOW_BS,  KC_LALT,           KC_SPC, RSE_ENT, KC_RALT, XXXXXXX
 ),
 /* COLEMAK
  * ,-----------------------------------------.                    ,-----------------------------------------.
@@ -63,7 +72,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
  * |   `  |   !  |   @  |   #  |   $  |   %  |-------.    ,-------|   ^  |   *  |   (  |   )  |   ~  |   \  |
  * |------+------+------+------+------+------|   [   |    |    ]  |------+------+------+------+------+------|
- * |      |      |      |      |      |      |-------|    |-------|   _  |   -  |   {  |   }  |   +  |   \  |
+ * |      |      |      |      |      |      |-------|    |-------|   _  |   -  |   {  |   }  |   +  |   |  |
  * `-----------------------------------------/       /     \      \-----------------------------------------'
  *                   | LAlt | LGUI |LOWER | /Space  /       \Enter \  |RAISE |BackSP| RGUI |
  *                   |      |      |      |/       /         \      \ |      |      |      |
@@ -73,7 +82,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   _______, _______, _______, _______, _______, _______,                   _______, _______, KC_INS,  KC_DEL,  _______, _______,
   _______, _______, _______, _______, _______, _______,                   _______, KC_AMPR, KC_LBRC, KC_RBRC, _______, _______,
   KC_GRV,  KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC,                   KC_CIRC, KC_ASTR, KC_LPRN, KC_RPRN, KC_TILD, KC_BSLS,
-  _______, _______, _______, _______, _______, _______, _______, _______, KC_UNDS, KC_MINS, KC_LCBR, KC_RCBR, KC_PLUS, KC_BSLS,
+  _______, _______, _______, _______, _______, _______, _______, _______, KC_UNDS, KC_MINS, KC_LCBR, KC_RCBR, KC_PLUS, KC_PIPE,
                              _______, _______, _______, _______, _______, _______, _______, _______
 ),
 /* RAISE
