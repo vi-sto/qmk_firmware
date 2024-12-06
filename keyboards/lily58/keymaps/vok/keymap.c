@@ -4,6 +4,15 @@
 #define LOW_BS LT(_LOWER, KC_BSPC)
 #define RSE_ENT LT(_RAISE, KC_ENT)
 
+// --- considerations and thoughts ---
+//#define xxx LT(LGUI, KC_DEL)
+//#define xxx LT(RAlt, KC_INS)
+//
+// need to put üöäß somewhere
+//   double tab LAlt = RAlt ???
+//
+// check out repeat !
+
 enum layer_number {
   _QWERTY = 0,
   _GALLIUM,
@@ -83,9 +92,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
  * |   `  |   1  |   2  |   3  |   4  |   5  |                    |   6  |   7  |   8  |   9  |   0  |      |
  * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
- * |LCTRL |  F2  |  F3  |  F4  |  F5  |  F6  |-------.    ,-------| Left | Down |  Up  |Right |Insert|Delete|
+ * |LCTRL |  F2  |  F3  |  F4  |  F5  |  F6  |-------.    ,-------| Left | Down |  Up  |Right |      |      |
  * |------+------+------+------+------+------|   [   |    | BOOT  |------+------+------+------+------+------|
- * |LShift|  F8  |  F9  | F10  | F11  | F12  |-------|    |-------|   +  |   -  |   =  |   [  |   ]  |  |   |
+ * |LShift|  F8  |  F9  | F10  | F11  | F12  |-------|    |-------|      | Home |Insert|Delete| End  |      |
  * `-----------------------------------------/       /     \      \-----------------------------------------'
  *                   |      | LGUI |LOWER | / LAlt  /       \Space \  |RAISE | RAlt |      |
  *                   |      |      | BSPC |/       /         \      \ |Enter |      |      |
@@ -96,7 +105,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,                        KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,
   KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    _______,
   KC_LCTL, KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,                        KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, _______, _______,
-  KC_LSFT, KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,   _______, QK_BOOT,   KC_HOME, KC_INS,  KC_DEL,  KC_END,  KC_RBRC, KC_PIPE,
+  KC_LSFT, KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,   _______, QK_BOOT,   _______, KC_HOME, KC_INS,  KC_DEL,  KC_END,  _______,
                              _______, _______, _______,  _______, _______,   _______, _______, _______
 ),
 /* ADJUST
