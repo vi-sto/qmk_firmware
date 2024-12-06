@@ -4,6 +4,15 @@
 #define LOW_BS LT(_LOWER, KC_BSPC)
 #define RSE_ENT LT(_RAISE, KC_ENT)
 
+// --- considerations and thoughts ---
+//#define xxx LT(LGUI, KC_DEL)
+//#define xxx LT(RAlt, KC_INS)
+//
+// need to put üöäß somewhere
+//   double tab LAlt = RAlt ???
+//
+// check out repeat !
+
 enum layer_number {
   _QWERTY = 0,
   _GALLIUM,
@@ -83,9 +92,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
  * |   `  |   1  |   2  |   3  |   4  |   5  |                    |   6  |   7  |   8  |   9  |   0  |      |
  * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
- * |LCTRL |  F2  |  F3  |  F4  |  F5  |  F6  |-------.    ,-------| Left | Down |  Up  |Right |Insert|Delete|
+ * |LCTRL |  F2  |  F3  |  F4  |  F5  |  F6  |-------.    ,-------| Left | Down |  Up  |Right |      |      |
  * |------+------+------+------+------+------|   [   |    | BOOT  |------+------+------+------+------+------|
- * |LShift|  F8  |  F9  | F10  | F11  | F12  |-------|    |-------|   +  |   -  |   =  |   [  |   ]  |  |   |
+ * |LShift|  F8  |  F9  | F10  | F11  | F12  |-------|    |-------| Home |Insert|Delete| End  |      |
  * `-----------------------------------------/       /     \      \-----------------------------------------'
  *                   |      | LGUI |LOWER | / LAlt  /       \Space \  |RAISE | RAlt |      |
  *                   |      |      | BSPC |/       /         \      \ |Enter |      |      |
