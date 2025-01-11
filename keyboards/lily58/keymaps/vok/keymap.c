@@ -1,8 +1,10 @@
 #include QMK_KEYBOARD_H
 
-#define LCTL_ESC LCTL_T(KC_ESC)
-#define LOW_BS LT(_LOWER, KC_BSPC)
+#define CTL_ESC LCTL_T(KC_ESC)
+#define LOW_BS  LT(_LOWER, KC_BSPC)
 #define RSE_ENT LT(_RAISE, KC_ENT)
+#define LG_AREP LGUI_T(QK_AREP)
+#define RA_REP  RALT_T(QK_REP)
 
 // --- considerations and thoughts ---
 //#define xxx LT(LGUI, KC_DEL)
@@ -35,15 +37,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |LShift|   Z  |   X  |   C  |   V  |   B  |-------|    |-------|   N  |   M  |   ,  |   .  |   /  |RShift|
  * `-----------------------------------------/       /     \      \-----------------------------------------'
  *                   |      | LGUI |LOWER | / LAlt  /       \Space \  |RAISE | RAlt |      |
- *                   |      |      | BSPC |/       /         \      \ |Enter |      |      |
+ *                   |      | AREP | BSPC |/       /         \      \ |Enter | REP  |      |
  *                   `----------------------------'           '------''--------------------'
  */
  [_QWERTY] = LAYOUT(
   KC_GRV,   KC_1,   KC_2,    KC_3,    KC_4,    KC_5,                     KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS,
   KC_TAB,   KC_Q,   KC_W,    KC_E,    KC_R,    KC_T,                     KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_EQL,
-  LCTL_ESC, KC_A,   KC_S,    KC_D,    KC_F,    KC_G,                     KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,
+  CTL_ESC,  KC_A,   KC_S,    KC_D,    KC_F,    KC_G,                     KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,
   KC_LSFT,  KC_Z,   KC_X,    KC_C,    KC_V,    KC_B, KC_LBRC,  KC_RBRC,  KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RSFT,
-                      XXXXXXX, KC_LGUI, LOW_BS,  KC_LALT,           KC_SPC, RSE_ENT, KC_RALT, XXXXXXX
+                      XXXXXXX, LG_AREP, LOW_BS,  KC_LALT,           KC_SPC, RSE_ENT, RA_REP, XXXXXXX
 ),
 /* GALLIUM
  * ,-----------------------------------------.                    ,-----------------------------------------.
@@ -174,13 +176,54 @@ bool oled_task_user(void) {
 #endif // OLED_ENABLE
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  if (record->event.pressed) {
+    if (record->event.pressed) {
 #ifdef OLED_ENABLE
-    set_keylog(keycode, record);
+        set_keylog(keycode, record);
 #endif
-    // set_timelog();
-  }
-  return true;
+        // set_timelog();
+    }
+
+    switch (keycode) {
+        // make non basic keycode taps possible with mod-tap keys
+        case LGUI_T(QK_AREP):
+            if (record->tap.count) {
+                process_repeat_key(QK_AREP, record);
+                return false;        // Return false to ignore further processing of key
+            }
+            break;
+        case RALT_T(QK_REP):
+            if (record->tap.count) {
+                process_repeat_key(QK_REP, record);
+                return false;        // Return false to ignore further processing of key
+            }
+            break;
+    }
+
+    return true;
+}
+
+uint16_t get_alt_repeat_key_keycode_user(uint16_t keycode, uint8_t mods) {
+    switch (keycode) {
+        // currently for emulated gallium
+        case KC_O: return KC_L;  // For "UE" bigram.
+        case KC_L: return KC_O;  // For "EU" bigram.
+        case KC_I: return KC_K;  // For "OA" bigram.
+        case KC_K: return KC_I;  // For "AO" bigram.
+        case KC_S: return KC_W;  // For "RL" bigram.
+        case KC_W: return KC_S;  // For "LR" bigram.
+    }
+
+    return KC_TRNS;
+}
+
+bool remember_last_key_user(uint16_t keycode, keyrecord_t* record, uint8_t* remembered_mods) {
+    switch (keycode) {
+        // don't repeat this:
+        case LGUI_T(QK_AREP):
+        case RALT_T(QK_REP):
+            return false;
+    }
+    return true;
 }
 
 /*
